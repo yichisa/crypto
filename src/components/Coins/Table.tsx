@@ -47,7 +47,7 @@ const Table = <T,>({ data, config, keyFn }: TableProps<T>) => {
   });
 
   return (
-    <div className="overflow-x-auto max-w-4xl mx-auto">
+    <div className="overflow-x-auto max-w-5xl mx-auto">
       <table className="min-w-full divide-y divide-gray-600 table-auto bg-gray-900">
         <thead className="bg-gray-800">
           <tr>{renderedHeaders}</tr>

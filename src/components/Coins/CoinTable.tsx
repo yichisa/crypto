@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { GoArrowDown, GoArrowUp } from 'react-icons/go';
-import Table from './Table'; // Assuming this is the Table component from before
+import Table from './Table';
 import useSort from '../../hooks/use-sort';
+import SearchBar from './SearchBar';
 
 // Define types for column configuration
 interface ColumnConfig<T> {
@@ -31,7 +32,7 @@ const CoinTable = <T,>({ data, config, keyFn }: SortableTableProps<T>) => {
       ...column,
       header: () => (
         <th
-          className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+          className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer"
           onClick={() => setSortColumn(column.label)}
         >
           <div className="flex items-center">
@@ -71,4 +72,23 @@ const getIcons = (label: string, sortBy: string | null, sortOrder: 'asc' | 'desc
   );
 };
 
-export default CoinTable;
+// Main component with search functionality
+const CoinTableWithSearch = <T,>({ data, config, keyFn }: SortableTableProps<T>) => {
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
+
+  // Filter the data based on the search query (search by coin name or symbol)
+  const filteredData = data.filter((coin: any) =>
+    coin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className="p-4 max-w-5xl mx-auto"> {/* Adjust max-w for table and input width */}
+      {/* Use the new SearchBar component */}
+      <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+      <CoinTable data={filteredData} config={config} keyFn={keyFn} />
+    </div>
+  );
+};
+
+export default CoinTableWithSearch;
