@@ -1,3 +1,5 @@
+import { getCachedData, setCachedData } from "../utils/caching";
+
 export interface Coin {
     id: string;
     name: string;
@@ -43,8 +45,19 @@ export const fetchCoins = async (): Promise<Coin[]> => {
   return data;
 };
 
-// Fetch movement data for a specific coin (1-day interval)
 export const fetchCoinMovementData = async (coinId: string): Promise<number[]> => {
+  // Check if the movement data is cached
+  const movementDataCacheKey = coinId + '_movement'
+  const cachedData = getCachedData(movementDataCacheKey);
+  console.log('fetching movement data')
+  if (cachedData) {
+    return cachedData; // Use cached data if available
+  }
+
+  // Delay the request by a specified time (e.g., 2 minutes = 120000 ms)
+  await new Promise((resolve) => setTimeout(resolve, 120000));
+
+  // Proceed to fetch the data after the delay
   const response = await fetch(
     `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=1`
   );
@@ -54,5 +67,9 @@ export const fetchCoinMovementData = async (coinId: string): Promise<number[]> =
   }
 
   const data = await response.json();
+
+  // Cache the fetched data
+  setCachedData(movementDataCacheKey, data.prices);
+
   return data.prices.map((price: [number, number]) => price[1]); // Extract the price points
 };
