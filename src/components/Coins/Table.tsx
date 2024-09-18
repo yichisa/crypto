@@ -12,10 +12,11 @@ interface TableProps<T> {
   data: T[];
   config: ColumnConfig<T>[];
   keyFn: (row: T) => string;
+  onRowClick?: (id: string) => void; // Add row click handler
 }
 
 // Generic Table component with typed props
-const Table = <T,>({ data, config, keyFn }: TableProps<T>) => {
+const Table = <T extends { id: string }>({ data, config, keyFn, onRowClick }: TableProps<T>) => {
   const renderedHeaders = config.map((column) => {
     if (column.header) {
       return <Fragment key={column.label}>{column.header()}</Fragment>;
@@ -40,7 +41,11 @@ const Table = <T,>({ data, config, keyFn }: TableProps<T>) => {
     });
 
     return (
-      <tr className="hover:bg-gray-700 border-b border-gray-600" key={keyFn(rowData)}>
+      <tr
+        className="hover:bg-gray-700 border-b border-gray-600 cursor-pointer"
+        key={keyFn(rowData)}
+        onClick={onRowClick ? () => onRowClick(rowData.id) : undefined} // Trigger onRowClick if provided
+      >
         {renderedCells}
       </tr>
     );
