@@ -73,3 +73,22 @@ export const fetchCoinMovementData = async (coinId: string): Promise<number[]> =
 
   return data.prices.map((price: [number, number]) => price[1]); // Extract the price points
 };
+
+// Sequentially fetch movement data for all coins
+export const fetchMovementDataSequentially = async (coins: Coin[], setData: React.Dispatch<React.SetStateAction<Coin[]>>) => {
+  for (const coin of coins) {
+    try {
+      // Fetch movement data for each coin
+      const movementData = await fetchCoinMovementData(coin.id);
+
+      // Update the state with the fetched data
+      setData((prevData) =>
+        prevData.map((c) =>
+          c.id === coin.id ? { ...c, movementData, isLoading: false } : c
+        )
+      );
+    } catch (error) {
+      console.error(`Error fetching movement data for ${coin.id}:`, error);
+    }
+  }
+};

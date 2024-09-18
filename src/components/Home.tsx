@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CoinTable from './Coins/CoinTable';
-import { fetchCoins, fetchCoinMovementData, Coin } from '../services/api';
+import { fetchMovementDataSequentially, fetchCoins, Coin } from '../services/api';
 import { config } from './Coins/coinTableConfig';
-
 
 // The key function to identify each row uniquely
 const keyFn = (coin: Coin) => coin.id;
@@ -12,46 +11,26 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchMovementDataSequentially = async (coins: Coin[]) => {
-    for (const coin of coins) {
-      try {
-        // Fetch movement data for each coin
-        const movementData = await fetchCoinMovementData(coin.id);
-  
-        // Update the state with the fetched data
-        setData((prevData) =>
-          prevData.map((c) =>
-            c.id === coin.id ? { ...c, movementData, isLoading: false } : c
-          )
-        );
-      } catch (error) {
-        console.error(`Error fetching movement data for ${coin.id}:`, error);
-      }
-    }
-  };
-  
-
   useEffect(() => {
     const getCoins = async () => {
       try {
         setLoading(true);
 
-        // Fetch the top 20 coins (no movement data yet)
         const coins = await fetchCoins();
 
         // Initialize isLoading for movement data
         const initialData = coins.map((coin) => ({
           ...coin,
-          isLoading: true,  // Set loading to true for movement data
-          movementData: [], // Initialize movement data as empty
+          isLoading: true,
+          movementData: [],
         }));
 
         // Set initial data to render the table with loading indicator
         setData(initialData);
         setLoading(false);
 
-        // Fetch movement data at 1-minute intervals for each coin
-        fetchMovementDataSequentially(initialData);
+        // Fetch movement data sequentially
+        fetchMovementDataSequentially(initialData, setData);
 
       } catch (err: any) {
         setError(err.message);
