@@ -1,39 +1,43 @@
-// src/components/Coins/CoinDetail.tsx
-
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { fetchCoinById, CoinDetails } from '../../services/api';
+import { Text, Stack } from '@fluentui/react';
 
 const CoinDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); // Correctly type the useParams hook
-  const [coinData, setCoinData] = useState<any>(null);
+  const { id } = useParams<{ id: string }>(); // Get coin id from route parameters
+  const [coin, setCoin] = useState<CoinDetails | null>(null); // Use CoinDetails type here
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCoinData = async () => {
+    const fetchCoin = async () => {
       try {
-        const response = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`);
-        const data = await response.json();
-        setCoinData(data);
+        const fetchedCoin = await fetchCoinById(id!); // Fetching CoinDetails by ID
+        setCoin(fetchedCoin);
       } catch (error) {
-        console.error('Error fetching coin data:', error);
+        console.error('Error fetching coin details:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (id) {
-      fetchCoinData();
-    }
+    fetchCoin();
   }, [id]);
 
-  if (!coinData) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (!coin) {
+    return <Text>No coin data available</Text>;
   }
 
   return (
-    <div>
-      <h2>{coinData.name} Details</h2>
-      <p>Symbol: {coinData.symbol}</p>
-      <p>Current Price: ${coinData.market_data.current_price.usd}</p>
-      {/* Add more coin details as needed */}
-    </div>
+    <Stack>
+      <Text variant="xLarge">{coin.name} ({coin.symbol.toUpperCase()})</Text> {/* coin.symbol comes from CoinDetails */}
+      <Text variant="medium">Current Price: ${coin.market_data.current_price.usd}</Text>
+      <Text variant="medium">Market Cap: ${coin.market_data.market_cap.usd}</Text>
+      <Text variant="small">{coin.description.en}</Text> {/* coin.description.en comes from CoinDetails */}
+    </Stack>
   );
 };
 

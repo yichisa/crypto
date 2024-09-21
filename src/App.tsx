@@ -1,6 +1,7 @@
-// src/App.tsx
-
 import React from 'react';
+import { ThemeProvider } from '@fluentui/react';
+import { darkTheme } from './styles/theme';
+import { initializeIcons } from '@fluentui/react/lib/Icons';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Layout/Navbar';
 import Footer from './components/Layout/Footer';
@@ -11,25 +12,23 @@ import CoinDetail from './components/Coins/CoinDetail';
 import Watchlist from './components/Watchlist/Watchlist';
 import PrivateRoute from './utils/PrivateRoute';
 
+initializeIcons();
+
 const App: React.FC = () => {
   return (
-    <Router>
-      {/* Move the "Live Coin Tracker" header above the NavBar */}
-      <div className="bg-gradient-to-b from-gray-800 to-black min-h-screen p-6">
-        <h1 className="text-2xl font-bold mb-4 text-white">Live Coin Tracker</h1>
-      <Navbar />
-
-      {/* Main routes */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/coin/:id" element={<CoinDetail />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/watchlist" element={<PrivateRoute element={<Watchlist />} />} />
-        </Routes>
-      </div>
-      <Footer />
-    </Router>
+    <ThemeProvider theme={darkTheme}>
+      <Router>
+        <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/coin/:id" element={<CoinDetail />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/watchlist" element={<PrivateRoute element={<Watchlist />} />} />
+          </Routes>
+        <Footer />
+      </Router>
+    </ThemeProvider>
   );
 };
 

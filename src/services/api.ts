@@ -10,8 +10,8 @@ export interface Coin {
     low_24h: number;
     image: string;
     price_change_percentage_24h: number;
-    movementData?: number[]; // Optional flag to track loading state
-    isLoading?: boolean; // Optional movement data
+    movementData?: number[]; 
+    isLoading?: boolean;
   }
   
   export interface CoinDetails {
@@ -19,7 +19,7 @@ export interface Coin {
     name: string;
     symbol: string;
     description: {
-      en: string; // English description
+      en: string;
     };
     market_data: {
       current_price: {
@@ -31,7 +31,6 @@ export interface Coin {
     };
   }
   
-  // Fetch top 20 coins from CoinGecko API (no movement data)
 export const fetchCoins = async (): Promise<Coin[]> => {
   const response = await fetch(
     'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1'
@@ -91,4 +90,27 @@ export const fetchMovementDataSequentially = async (coins: Coin[], setData: Reac
       console.error(`Error fetching movement data for ${coin.id}:`, error);
     }
   }
+};
+
+export const fetchCoinById = async (coinId: string): Promise<CoinDetails | null> => {
+  // Check if the coin data is cached
+  const cacheKey = coinId + '_details';
+  const cachedData = getCachedData(cacheKey);
+  if (cachedData) {
+    return cachedData; // Return cached data if available
+  }
+
+  // Fetch coin details from CoinGecko API
+  const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`);
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch details for coin with id: ${coinId}`);
+  }
+
+  const data: CoinDetails = await response.json();
+
+  // Cache the fetched data
+  setCachedData(cacheKey, data);
+
+  return data;
 };

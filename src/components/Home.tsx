@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { Spinner, Stack, Text } from '@fluentui/react';
 import CoinTable from './Coins/CoinTable';
 import { fetchMovementDataSequentially, fetchCoins, Coin } from '../services/api';
 import { config } from './Coins/coinTableConfig';
 
-// The key function to identify each row uniquely
 const keyFn = (coin: Coin) => coin.id;
 
 const Home: React.FC = () => {
@@ -18,20 +18,16 @@ const Home: React.FC = () => {
 
         const coins = await fetchCoins();
 
-        // Initialize isLoading for movement data
         const initialData = coins.map((coin) => ({
           ...coin,
           isLoading: true,
           movementData: [],
         }));
 
-        // Set initial data to render the table with loading indicator
         setData(initialData);
         setLoading(false);
 
-        // Fetch movement data sequentially
         fetchMovementDataSequentially(initialData, setData);
-
       } catch (err: any) {
         setError(err.message);
         setLoading(false);
@@ -42,18 +38,30 @@ const Home: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: '#1d1d1d' } }}>
+        <Spinner label="Loading..." />
+      </Stack>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: '#1d1d1d' } }}>
+        <Text variant="large" style={{ color: 'white' }}>
+          Error: {error}
+        </Text>
+      </Stack>
+    );
   }
 
   return (
-    <div className="bg-gray-900 min-h-screen p-6">
-      <h1 className="text-2xl font-bold mb-4 text-white">Live Coin Tracker</h1>
+    <Stack verticalAlign="start" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: '#1d1d1d', padding: '24px' } }}>
+      <Text variant="xLarge" styles={{ root: { color: 'white', marginBottom: '16px' } }}>
+        Live Coin Tracker
+      </Text>
       <CoinTable data={data} config={config} keyFn={keyFn} />
-    </div>
+    </Stack>
   );
 };
 

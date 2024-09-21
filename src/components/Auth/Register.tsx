@@ -1,75 +1,113 @@
+// Register.tsx
 import React, { useState } from 'react';
+import { Stack, TextField, PrimaryButton, Text, MessageBar, MessageBarType, useTheme } from '@fluentui/react';
 
 const Register: React.FC = () => {
   const [form, setForm] = useState({ email: '', password: '', confirmPassword: '' });
   const [error, setError] = useState<string | null>(null);
+  const theme = useTheme();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
+    const { name } = e.currentTarget;
+    setForm({ ...form, [name]: newValue || '' });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle registration logic
     if (form.password !== form.confirmPassword) {
       setError("Passwords don't match");
     } else {
       setError(null);
-      // Submit form
+      // Submit form logic
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 to-black">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-3xl font-bold text-white text-center mb-6">Register</h1>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+    <Stack
+      horizontalAlign="center"
+      verticalAlign="center"
+      styles={{
+        root: {
+          minHeight: '100vh',
+          backgroundColor: theme.palette.neutralLighter,
+          padding: 20,
+        },
+      }}
+    >
+      <Stack
+        styles={{
+          root: {
+            width: '100%',
+            maxWidth: '400px',
+            padding: '20px',
+            backgroundColor: theme.palette.white,
+            borderRadius: '8px',
+            boxShadow: theme.effects.elevation8,
+          },
+        }}
+      >
+        <Text variant="xLarge" styles={{ root: { marginBottom: '20px', color: theme.palette.themePrimary } }}>
+          Register
+        </Text>
+
+        {error && (
+          <MessageBar messageBarType={MessageBarType.error} isMultiline={false}>
+            {error}
+          </MessageBar>
+        )}
+
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-gray-700 text-white mt-1 focus:ring focus:ring-blue-500 outline-none"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              value={form.password}
-              onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-gray-700 text-white mt-1 focus:ring focus:ring-blue-500 outline-none"
-            />
-          </div>
-          <div className="mb-6">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">Confirm Password</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              className="w-full p-3 rounded-lg bg-gray-700 text-white mt-1 focus:ring focus:ring-blue-500 outline-none"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-lg transition duration-300"
-          >
-            Register
-          </button>
+          <TextField
+            label="Email"
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            styles={{
+              subComponentStyles: {
+                label: {
+                  root: { color: theme.palette.themePrimary },
+                },
+              },
+            }}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            canRevealPassword
+            required
+            styles={{
+              subComponentStyles: {
+                label: {
+                  root: { color: theme.palette.themePrimary },
+                },
+              },
+            }}
+          />
+          <TextField
+            label="Confirm Password"
+            type="password"
+            name="confirmPassword"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            canRevealPassword
+            required
+            styles={{
+              subComponentStyles: {
+                label: {
+                  root: { color: theme.palette.themePrimary },
+                },
+              },
+            }}
+          />
+          <PrimaryButton type="submit" text="Register" styles={{ root: { marginTop: '20px', width: '100%' } }} />
         </form>
-        <p className="mt-6 text-center text-gray-400">
-          Already have an account? <a href="/login" className="text-blue-400 hover:text-blue-300">Login</a>
-        </p>
-      </div>
-    </div>
+      </Stack>
+    </Stack>
   );
 };
 

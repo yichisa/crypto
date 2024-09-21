@@ -1,3 +1,4 @@
+import { Image, Text, Stack, ImageFit } from '@fluentui/react';
 import { Coin } from '../../services/api';
 import LineChart from './LineChart';
 import { formatLargeNumber } from '../../utils/formatters';
@@ -5,16 +6,28 @@ import { formatLargeNumber } from '../../utils/formatters';
 export const config = [
   {
     label: 'Coin',
-    render: (coin: Coin) => <img src={coin.image} alt={coin.name} className="w-8 h-8" />,
+    render: (coin: Coin) => (
+      <Image 
+        src={coin.image} 
+        alt={coin.name} 
+        width={32} 
+        height={32} 
+        imageFit={ImageFit.contain}  // Use the enum value here
+      />
+    ),
     sortValue: undefined,
   },
   {
     label: 'Name',
     render: (coin: Coin) => (
-      <div className="w-24 truncate">
-        <span className="block font-semibold text-white">{coin.id.toUpperCase()}</span>
-        <span className="block text-sm text-gray-400">{coin.name}</span>
-      </div>
+      <Stack>
+        <Text variant="medium">
+          {coin.id.toUpperCase()}
+        </Text>
+        <Text variant="small">
+          {coin.name}
+        </Text>
+      </Stack>
     ),
     sortValue: (coin: Coin) => coin.name,
   },
@@ -46,9 +59,9 @@ export const config = [
   {
     label: '24h Change',
     render: (coin: Coin) => (
-      <span className={coin.price_change_percentage_24h > 0 ? 'text-green-500' : 'text-red-500'}>
+      <Text variant="small" style={{ color: coin.price_change_percentage_24h > 0 ? 'green' : 'red' }}>
         {formatLargeNumber(coin.price_change_percentage_24h)}%
-      </span>
+      </Text>
     ),
     sortValue: (coin: Coin) => coin.price_change_percentage_24h,
   },
@@ -56,14 +69,14 @@ export const config = [
     label: 'Movement',
     render: (coin: Coin) => {
       return coin.isLoading ? (
-        <div>Loading...</div>  // Show "Loading..." while movement data is being fetched
+        <Text>Loading...</Text>
       ) : coin.movementData && coin.movementData.length > 0 ? (
-        <LineChart dataPoints={coin.movementData} />  // Show the chart once data is available
+        <LineChart dataPoints={coin.movementData} />
       ) : (
-        <div>No data</div>  // Handle case where there is no movement data
+        <Text>No data</Text>
       );
     },
-  },  
+  },
 ];
 
 // The key function to identify each row uniquely

@@ -1,27 +1,45 @@
+// Navbar.tsx
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { Stack, Text, useTheme } from '@fluentui/react';
 
 const Navbar: React.FC = () => {
+  const theme = useTheme();
+
+  const linkStyle = {
+    color: theme.palette.white, // Use theme color for link text
+    textDecoration: 'none',
+    padding: '10px 15px',
+  };
+
   return (
-    <nav className="bg-gray-800 p-4">
-      <div className="flex justify-between">
-        <ul className="flex space-x-8">
-          <li>
-            <Link to="/" className="text-white hover:bg-gray-700 px-4 py-2 rounded">Home</Link>
-          </li>
-          <li>
-            <Link to="/watchlist" className="text-white hover:bg-gray-700 px-4 py-2 rounded">Watchlist</Link>
-          </li>
-        </ul>
-        <ul className="flex space-x-8">
-          <li>
-            <Link to="/login" className="text-white hover:bg-gray-700 px-4 py-2 rounded">Login</Link>
-          </li>
-          <li>
-            <Link to="/register" className="text-white hover:bg-gray-700 px-4 py-2 rounded">Register</Link>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <Stack
+      horizontal
+      horizontalAlign="space-between"
+      styles={{
+        root: {
+          backgroundColor: theme.palette.themePrimary,
+          padding: '10px 20px',
+        },
+      }}
+    >
+      <Stack horizontal tokens={{ childrenGap: 20 }}>
+        <Link to="/" style={linkStyle}>
+          <Text variant="medium">Home</Text>
+        </Link>
+        <Link to="/watchlist" style={linkStyle}>
+          <Text variant="medium">Watchlist</Text>
+        </Link>
+      </Stack>
+      <Stack horizontal tokens={{ childrenGap: 20 }}>
+        <Link to="/login" style={linkStyle}>
+          <Text variant="medium">Login</Text>
+        </Link>
+        <Link to="/register" style={linkStyle}>
+          <Text variant="medium">Register</Text>
+        </Link>
+      </Stack>
+    </Stack>
   );
 };
 

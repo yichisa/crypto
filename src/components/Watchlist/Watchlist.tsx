@@ -1,27 +1,21 @@
-// src/components/Watchlist/Watchlist.tsx
-
 import React, { useEffect, useState } from 'react';
+import { Stack, Text, useTheme, PrimaryButton } from '@fluentui/react';
 
 const Watchlist: React.FC = () => {
   const [watchlist, setWatchlist] = useState<string[]>([]);
   const [coinData, setCoinData] = useState<any[]>([]);
+  const theme = useTheme();
 
   useEffect(() => {
-    // Fetch watchlist from local storage or API
-    const savedWatchlist = JSON.parse(
-      localStorage.getItem('watchlist') || '[]'
-    );
+    const savedWatchlist = JSON.parse(localStorage.getItem('watchlist') || '[]');
     setWatchlist(savedWatchlist);
   }, []);
 
   useEffect(() => {
-    // Fetch coin data for each coin in the watchlist
     const fetchCoinData = async () => {
       const data = await Promise.all(
         watchlist.map(async (id) => {
-          const response = await fetch(
-            `https://api.coingecko.com/api/v3/coins/${id}`
-          );
+          const response = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`);
           return response.json();
         })
       );
@@ -34,22 +28,46 @@ const Watchlist: React.FC = () => {
   }, [watchlist]);
 
   if (watchlist.length === 0) {
-    return <div>Your watchlist is empty.</div>;
+    return (
+      <Text styles={{ root: { color: theme.palette.neutralPrimary, margin: '20px 0' } }}>
+        Your watchlist is empty.
+      </Text>
+    );
   }
 
   return (
-    <div>
-      <h2>Your Watchlist</h2>
-      <ul>
+    <Stack tokens={{ childrenGap: 20 }} styles={{ root: { padding: 20, backgroundColor: theme.palette.neutralLighter } }}>
+      <Text variant="xLarge" styles={{ root: { color: theme.palette.themePrimary } }}>
+        Your Watchlist
+      </Text>
+
+      <Stack>
         {coinData.map((coin) => (
-          <li key={coin.id}>
-            <p>{coin.name}</p>
-            <p>Current Price: ${coin.market_data.current_price.usd}</p>
-            {/* Add more coin information or actions */}
-          </li>
+          <Stack
+            key={coin.id}
+            horizontal
+            verticalAlign="center"
+            tokens={{ childrenGap: 10 }}
+            styles={{ root: { backgroundColor: theme.palette.white, padding: '10px', borderRadius: '4px', boxShadow: theme.effects.elevation4 } }}
+          >
+            <Text variant="medium" styles={{ root: { color: theme.palette.neutralPrimary } }}>
+              {coin.name} - ${coin.market_data.current_price.usd}
+            </Text>
+            <PrimaryButton
+              text="Remove"
+              styles={{
+                root: { marginLeft: 'auto', backgroundColor: theme.palette.themePrimary, color: theme.palette.white },
+              }}
+              onClick={() => {
+                const updatedWatchlist = watchlist.filter((item) => item !== coin.id);
+                setWatchlist(updatedWatchlist);
+                localStorage.setItem('watchlist', JSON.stringify(updatedWatchlist));
+              }}
+            />
+          </Stack>
         ))}
-      </ul>
-    </div>
+      </Stack>
+    </Stack>
   );
 };
 

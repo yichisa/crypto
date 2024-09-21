@@ -1,4 +1,5 @@
 import React from 'react';
+import { SearchBox } from '@fluentui/react';
 
 interface SearchBarProps {
   searchQuery: string;
@@ -7,12 +8,11 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, onSearchChange }) => {
   return (
-    <input
-      type="text"
+    <SearchBox
       placeholder="Search coins..."
-      className="mb-4 p-2 border border-teal-500 focus:ring-teal-500 focus:border-teal-500 rounded-md w-full"
       value={searchQuery}
-      onChange={(e) => onSearchChange(e.target.value)} // Pass search query back to the parent
+      onChange={(_, newValue) => onSearchChange(newValue || '')}
+      underlined={false} // Optional, to style the search box differently
     />
   );
 };
