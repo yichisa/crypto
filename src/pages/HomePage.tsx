@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Spinner, Stack, Text } from '@fluentui/react';
-import CoinTable from './Coins/CoinTable';
+import { Spinner, Stack, Text, useTheme } from '@fluentui/react';
+import CoinTable from '../components/Coins/CoinTable';
 import { fetchMovementDataSequentially, fetchCoins, Coin } from '../services/api';
-import { config } from './Coins/coinTableConfig';
+import { config } from '../components/Coins/coinTableConfig';
 
 const keyFn = (coin: Coin) => coin.id;
 
@@ -10,6 +10,8 @@ const Home: React.FC = () => {
   const [data, setData] = useState<Coin[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const theme = useTheme();
+
 
   useEffect(() => {
     const getCoins = async () => {
@@ -39,7 +41,7 @@ const Home: React.FC = () => {
 
   if (loading) {
     return (
-      <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: '#1d1d1d' } }}>
+      <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: theme.palette.neutralDark } }}>
         <Spinner label="Loading..." />
       </Stack>
     );
@@ -47,7 +49,7 @@ const Home: React.FC = () => {
 
   if (error) {
     return (
-      <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: '#1d1d1d' } }}>
+      <Stack verticalAlign="center" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: theme.palette.neutralDark } }}>
         <Text variant="large" style={{ color: 'white' }}>
           Error: {error}
         </Text>
@@ -56,10 +58,7 @@ const Home: React.FC = () => {
   }
 
   return (
-    <Stack verticalAlign="start" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: '#1d1d1d', padding: '24px' } }}>
-      <Text variant="xLarge" styles={{ root: { color: 'white', marginBottom: '16px' } }}>
-        Live Coin Tracker
-      </Text>
+    <Stack verticalAlign="start" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: theme.palette.neutralDark, padding: '24px' } }}>
       <CoinTable data={data} config={config} keyFn={keyFn} />
     </Stack>
   );

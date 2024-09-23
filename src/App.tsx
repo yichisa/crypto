@@ -5,11 +5,11 @@ import { initializeIcons } from '@fluentui/react/lib/Icons';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Layout/Navbar';
 import Footer from './components/Layout/Footer';
-import Home from './components/Home';
-import Login from './components/Auth/Login';
-import Register from './components/Auth/Register';
+import Home from './pages/HomePage';
+import Login from './pages/LoginPage';
+import Register from './pages/RegisterPage';
 import CoinDetail from './components/Coins/CoinDetail';
-import Watchlist from './components/Watchlist/Watchlist';
+import Watchlist from './pages/WatchlistPage';
 import PrivateRoute from './utils/PrivateRoute';
 
 initializeIcons();

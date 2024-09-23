@@ -12,7 +12,7 @@ export const config = [
         alt={coin.name} 
         width={32} 
         height={32} 
-        imageFit={ImageFit.contain}  // Use the enum value here
+        imageFit={ImageFit.contain}
       />
     ),
     sortValue: undefined,
@@ -79,5 +79,4 @@ export const config = [
   },
 ];
 
-// The key function to identify each row uniquely
 export const keyFn = (coin: Coin) => coin.id;

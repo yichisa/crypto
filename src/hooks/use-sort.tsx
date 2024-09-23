@@ -1,14 +1,12 @@
 import { useState } from "react";
 
-// Define a type for the column configuration
 interface ColumnConfig<T> {
   label: string;
-  sortValue?: (item: T) => string | number; // sortValue is optional
+  sortValue?: (item: T) => string | number;
   render: (item: T) => React.ReactNode;
   header?: () => React.ReactNode;
 }
 
-// Define the return type for the hook
 interface UseSortReturn<T> {
   sortOrder: 'asc' | 'desc' | null;
   sortBy: string | null;
@@ -16,25 +14,23 @@ interface UseSortReturn<T> {
   setSortColumn: (label: string) => void;
 }
 
-// Define the hook with generics
 function useSort<T>(data: T[], config: ColumnConfig<T>[]): UseSortReturn<T> {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
   const [sortBy, setSortBy] = useState<string | null>(null);
 
-  // Function to handle column sorting logic
   const setSortColumn = (label: string) => {
     if (sortBy && label !== sortBy) {
-      setSortOrder('asc');
+      setSortOrder('desc');
       setSortBy(label);
       return;
     }
     if (sortOrder === null) {
-      setSortOrder('asc');
-      setSortBy(label);
-    } else if (sortOrder === 'asc') {
       setSortOrder('desc');
       setSortBy(label);
     } else if (sortOrder === 'desc') {
+      setSortOrder('asc');
+      setSortBy(label);
+    } else if (sortOrder === 'asc') {
       setSortOrder(null);
       setSortBy(null);
     }

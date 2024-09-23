@@ -1,9 +1,8 @@
-// Register.tsx
 import React, { useState } from 'react';
 import { Stack, TextField, PrimaryButton, Text, MessageBar, MessageBarType, useTheme } from '@fluentui/react';
 
-const Register: React.FC = () => {
-  const [form, setForm] = useState({ email: '', password: '', confirmPassword: '' });
+const Login: React.FC = () => {
+  const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
 
@@ -14,11 +13,10 @@ const Register: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (form.password !== form.confirmPassword) {
-      setError("Passwords don't match");
+    if (form.email === '' || form.password === '') {
+      setError('Please fill in all fields');
     } else {
       setError(null);
-      // Submit form logic
     }
   };
 
@@ -47,7 +45,7 @@ const Register: React.FC = () => {
         }}
       >
         <Text variant="xLarge" styles={{ root: { marginBottom: '20px', color: theme.palette.themePrimary } }}>
-          Register
+          Login
         </Text>
 
         {error && (
@@ -81,6 +79,7 @@ const Register: React.FC = () => {
             canRevealPassword
             required
             styles={{
+              root: { marginTop: '15px' },
               subComponentStyles: {
                 label: {
                   root: { color: theme.palette.themePrimary },
@@ -88,27 +87,11 @@ const Register: React.FC = () => {
               },
             }}
           />
-          <TextField
-            label="Confirm Password"
-            type="password"
-            name="confirmPassword"
-            value={form.confirmPassword}
-            onChange={handleChange}
-            canRevealPassword
-            required
-            styles={{
-              subComponentStyles: {
-                label: {
-                  root: { color: theme.palette.themePrimary },
-                },
-              },
-            }}
-          />
-          <PrimaryButton type="submit" text="Register" styles={{ root: { marginTop: '20px', width: '100%' } }} />
+          <PrimaryButton type="submit" text="Login" styles={{ root: { marginTop: '20px', width: '100%' } }} />
         </form>
       </Stack>
     </Stack>
   );
 };
 
-export default Register;
+export default Login;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Stack, Text, SearchBox, IStackTokens } from '@fluentui/react';
+import { Stack, Text, SearchBox, IStackTokens, useTheme } from '@fluentui/react';
 import Table from './Table';
+import { getSearchBoxStyles } from '../../styles/styles';
 import { Icon } from '@fluentui/react';
 import useSort from '../../hooks/use-sort';
 import { useNavigate } from 'react-router-dom';
@@ -42,14 +43,9 @@ const CoinTable = <T extends { id: string }>({ data, config, keyFn, onRowClick }
   return <Table data={sortedData} config={updatedConfig} keyFn={keyFn} onRowClick={onRowClick} />;
 };
 
-const getIcons = (label: string, sortBy: string | null, sortOrder: 'asc' | 'desc' | null) => {
+const getIcons = (label: string, sortBy: string | null, sortOrder:  'desc' | 'asc' | null) => {
   if (label !== sortBy) {
-    return (
-      <div>
-        <Icon iconName="CaretUpSolid8" />
-        <Icon iconName="CaretDownSolid8" />
-      </div>
-    );
+    return;
   }
 
   if (sortOrder === 'asc') {
@@ -69,6 +65,8 @@ const getIcons = (label: string, sortBy: string | null, sortOrder: 'asc' | 'desc
 const CoinTableWithSearch = <T extends { id: string }>({ data, config, keyFn }: CoinTableProps<T>) => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const theme = useTheme(); // Access Fluent UI theme
+  const styles = getSearchBoxStyles(theme)
 
   const filteredData = data.filter((coin: any) =>
     coin.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -85,9 +83,11 @@ const CoinTableWithSearch = <T extends { id: string }>({ data, config, keyFn }: 
     <Stack tokens={stackTokens}>
       <Stack.Item align="center">
         <SearchBox
-          placeholder="Search by name or symbol"
+          placeholder="Search coins.."
           value={searchQuery}
           onChange={(_, newValue) => setSearchQuery(newValue || '')}
+          underlined={false}
+          styles={styles}
         />
       </Stack.Item>
       <Stack.Item>

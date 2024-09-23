@@ -1,9 +1,8 @@
-// Login.tsx
 import React, { useState } from 'react';
 import { Stack, TextField, PrimaryButton, Text, MessageBar, MessageBarType, useTheme } from '@fluentui/react';
 
-const Login: React.FC = () => {
-  const [form, setForm] = useState({ email: '', password: '' });
+const Register: React.FC = () => {
+  const [form, setForm] = useState({ email: '', password: '', confirmPassword: '' });
   const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
 
@@ -14,8 +13,8 @@ const Login: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (form.email === '' || form.password === '') {
-      setError('Please fill in all fields');
+    if (form.password !== form.confirmPassword) {
+      setError("Passwords don't match");
     } else {
       setError(null);
       // Submit form logic
@@ -47,7 +46,7 @@ const Login: React.FC = () => {
         }}
       >
         <Text variant="xLarge" styles={{ root: { marginBottom: '20px', color: theme.palette.themePrimary } }}>
-          Login
+          Register
         </Text>
 
         {error && (
@@ -81,7 +80,6 @@ const Login: React.FC = () => {
             canRevealPassword
             required
             styles={{
-              root: { marginTop: '15px' },
               subComponentStyles: {
                 label: {
                   root: { color: theme.palette.themePrimary },
@@ -89,11 +87,27 @@ const Login: React.FC = () => {
               },
             }}
           />
-          <PrimaryButton type="submit" text="Login" styles={{ root: { marginTop: '20px', width: '100%' } }} />
+          <TextField
+            label="Confirm Password"
+            type="password"
+            name="confirmPassword"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            canRevealPassword
+            required
+            styles={{
+              subComponentStyles: {
+                label: {
+                  root: { color: theme.palette.themePrimary },
+                },
+              },
+            }}
+          />
+          <PrimaryButton type="submit" text="Register" styles={{ root: { marginTop: '20px', width: '100%' } }} />
         </form>
       </Stack>
     </Stack>
   );
 };
 
-export default Login;
+export default Register;

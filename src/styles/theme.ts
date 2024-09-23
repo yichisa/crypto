@@ -1,14 +1,17 @@
 import { createTheme } from '@fluentui/react';
 
 export const darkTheme = createTheme({
-palette: {
-        themePrimary: '#00CED1', // teal color
+    palette: {
+        themePrimary: '#47c2be', // teal color
         neutralPrimary: '#ffffff',
-        neutralLighter: '#333333',
-        neutralLight: '#222222',
-        neutralDark: '#f3f2f1',
+        neutralLighter: '#343e56',
+        neutralLight: '#293143',
+        neutralDark: '#1d2330',
         neutralQuaternaryAlt: '#444444',
         white: '#ffffff',
+      },
+    semanticColors: {
+        bodyBackground: '#293143',
       },
   fonts: {
     medium: {

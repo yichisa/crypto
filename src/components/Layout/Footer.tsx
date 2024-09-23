@@ -1,4 +1,3 @@
-// Footer.tsx
 import React from 'react';
 import { Stack, Text, useTheme } from '@fluentui/react';
 
@@ -10,7 +9,7 @@ const Footer: React.FC = () => {
       horizontalAlign="center"
       styles={{
         root: {
-          backgroundColor: theme.palette.neutralLighter,
+          backgroundColor: theme.palette.neutralDark,
           padding: '20px',
           borderTop: `1px solid ${theme.palette.neutralLight}`,
         },

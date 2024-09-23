@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-import { Text } from '@fluentui/react';
-import { tableContainerClass, tableClass, thClass, trClass, tdClass, textHeaderClass } from  "../../styles/styles";
+import { Text, useTheme } from '@fluentui/react';
+import { getTableStyles } from  "../../styles/styles";
 
 interface ColumnConfig<T> {
   label: string;
@@ -16,13 +16,15 @@ interface TableProps<T> {
 }
 
 const Table = <T extends { id: string }>({ data, config, keyFn, onRowClick }: TableProps<T>) => {
+  const theme = useTheme();
+  const styles = getTableStyles(theme);
   const renderedHeaders = config.map((column) => {
     if (column.header) {
       return <Fragment key={column.label}>{column.header()}</Fragment>;
     }
     return (
       <th key={column.label}>
-        <Text variant="small" className={textHeaderClass}>
+        <Text variant="small" className={styles.headerText}>
           {column.label}
         </Text>
       </th>
@@ -31,7 +33,7 @@ const Table = <T extends { id: string }>({ data, config, keyFn, onRowClick }: Ta
 
   const renderedRows = data.map((rowData) => {
     const renderedCells = config.map((column) => (
-      <td key={column.label} className={tdClass}>
+      <td key={column.label} className={styles.td}>
         {column.render(rowData)}
       </td>
     ));
@@ -39,7 +41,7 @@ const Table = <T extends { id: string }>({ data, config, keyFn, onRowClick }: Ta
     return (
       <tr
         key={keyFn(rowData)}
-        className={trClass}
+        className={styles.tr}
         onClick={onRowClick ? () => onRowClick(rowData.id) : undefined}
       >
         {renderedCells}
@@ -48,9 +50,9 @@ const Table = <T extends { id: string }>({ data, config, keyFn, onRowClick }: Ta
   });
 
   return (
-    <div className={tableContainerClass}>
-      <table className={tableClass}>
-        <thead className={thClass}>
+    <div className={styles.tableContainer}>
+      <table className={styles.table}>
+        <thead className={styles.th}>
           <tr>{renderedHeaders}</tr>
         </thead>
         <tbody>{renderedRows}</tbody>
