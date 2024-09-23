@@ -9,6 +9,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler, // Import Filler for the gradient fill
 } from 'chart.js';
 
 ChartJS.register(
@@ -18,7 +19,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler // Register the Filler plugin for the gradient
 );
 
 interface LineChartProps {
@@ -26,14 +28,31 @@ interface LineChartProps {
 }
 
 const LineChart: React.FC<LineChartProps> = ({ dataPoints }) => {
+  const chartRef = React.useRef(null); // Create a ref to access the chart instance
+
   const data = {
-    labels: dataPoints.map((_, index) => index), // Just using index as label
+    labels: dataPoints.map((_, index) => index), // Use index as the label
     datasets: [
       {
         label: 'Price Movement',
         data: dataPoints,
         borderColor: 'rgba(56, 193, 114, 1)', // Green for the line
-        backgroundColor: 'rgba(56, 193, 114, 0.1)', // Light green background
+        backgroundColor: (context: any) => {
+          const chart = context.chart;
+          const { ctx, chartArea } = chart;
+
+          if (!chartArea) {
+            return null;
+          }
+
+          // Create a gradient fill for the area under the curve
+          const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+          gradient.addColorStop(0, 'rgba(56, 193, 114, 0.5)'); // Stronger green at the top
+          gradient.addColorStop(1, 'rgba(56, 193, 114, 0)'); // Fading to transparent at the bottom
+
+          return gradient;
+        },
+        fill: true, // Fill the area under the line
         tension: 0.4, // Curved line
         borderWidth: 2,
         pointRadius: 0, // No visible points
@@ -61,7 +80,7 @@ const LineChart: React.FC<LineChartProps> = ({ dataPoints }) => {
     },
   };
 
-  return <Line data={data} options={options} height={50} />;
+  return <Line ref={chartRef} data={data} options={options} height={50} />;
 };
 
 export default LineChart;

@@ -14,6 +14,10 @@ export const getTableStyles = (theme: ITheme) => ({
   }),
   th: mergeStyles({
     backgroundColor: theme.palette.neutralLight,
+    padding: '20px 24px', // Increased padding to make the th height bigger
+    height: '50px', // Optionally set a fixed height for the header
+    color: theme.palette.neutralPrimary,
+    textAlign: 'center', // Ensures text alignment
   }),
   tr: mergeStyles({
     cursor: 'pointer',
@@ -29,7 +33,6 @@ export const getTableStyles = (theme: ITheme) => ({
   }),
   headerText: mergeStyles({
     fontWeight: 600,
-    textTransform: 'uppercase',
   }),
 });
 
