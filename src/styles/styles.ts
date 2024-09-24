@@ -4,7 +4,7 @@ import { mergeStyles, ITheme, ISearchBoxStyles } from '@fluentui/react';
 export const getTableStyles = (theme: ITheme) => ({
   tableContainer: mergeStyles({
     overflowX: 'auto',
-    maxWidth: '80%',
+    maxWidth: '100%',
     margin: '0 auto',
     backgroundColor: theme.palette.neutralLight,
   }),
@@ -14,15 +14,16 @@ export const getTableStyles = (theme: ITheme) => ({
   }),
   th: mergeStyles({
     backgroundColor: theme.palette.neutralLight,
-    padding: '20px 24px', // Increased padding to make the th height bigger
-    height: '50px', // Optionally set a fixed height for the header
+    padding: '10px 24px',
+    height: '20px',
     color: theme.palette.neutralPrimary,
-    textAlign: 'center', // Ensures text alignment
+    textAlign: 'center',
+    borderBottom: `4px solid ${theme.palette.neutralDark}`,
   }),
   tr: mergeStyles({
     cursor: 'pointer',
-    borderBottom: `1px solid ${theme.palette.neutralLight}`,
-    backgroundColor: theme.palette.neutralDark,
+    borderBottom: `2px solid ${theme.palette.neutralDark}`,
+    backgroundColor: theme.palette.neutralLight,
     ':hover': {
       backgroundColor: theme.palette.neutralLighter,
     },

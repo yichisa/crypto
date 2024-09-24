@@ -24,23 +24,23 @@ const Navbar: React.FC = () => {
       }}
     >
       <Link to="/" style={linkStyle}>
-        <Text variant="xLarge" styles={{ root: { color: theme.palette.white } }}>
+        <Text variant="xxLarge" styles={{ root: { color: theme.palette.white } }}>
           Live Coin Tracker
         </Text>
         </Link>
 
       <Stack horizontal tokens={{ childrenGap: 20 }}>
-        <Link to="/overview" style={linkStyle}>
-          <Text variant="medium">Overview</Text>
+        <Link to="/exchanges" style={linkStyle}>
+          <Text variant="xLarge">Exchanges</Text>
         </Link>
         <Link to="/Trending" style={linkStyle}>
-          <Text variant="medium">Trending</Text>
+          <Text variant="xLarge">Trending</Text>
         </Link>
         <Link to="/watchlist" style={linkStyle}>
-          <Text variant="medium">Watchlist</Text>
+          <Text variant="xLarge">Watchlist</Text>
         </Link>
         <Link to="/portfolio" style={linkStyle}>
-          <Text variant="medium">Portfolio</Text>
+          <Text variant="xLarge">Portfolio</Text>
         </Link>
       </Stack>
 
