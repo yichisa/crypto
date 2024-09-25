@@ -4,6 +4,8 @@ import CoinTable from '../components/Coins/CoinTable';
 import { fetchMovementDataSequentially, fetchCoins, Coin } from '../services/api';
 import { config } from '../components/Coins/coinTableConfig';
 import Banner from '../components/Ads/Banner';
+import { RecentlyAddedCoinsWidget } from '../components/Coins/RecentlyAddedCoinsWidget';
+
 
 const keyFn = (coin: Coin) => coin.id;
 
@@ -12,7 +14,6 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
-
 
   useEffect(() => {
     const getCoins = async () => {
@@ -61,7 +62,30 @@ const Home: React.FC = () => {
   return (
     <Stack verticalAlign="start" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: theme.palette.neutralDark, padding: '24px' } }}>
       <Banner />
-      <CoinTable data={data} config={config} keyFn={keyFn} />
+
+      <Stack styles={{ root: { maxWidth: '1200px', width: '100%' } }}>
+        {/* Widgets section */}
+        <Stack horizontal horizontalAlign="space-between" wrap tokens={{ childrenGap: 20 }} styles={{ root: { marginTop: '40px', width: '100%' } }}>
+          {/* Add 4 cards with equal width */}
+          <Stack.Item grow styles={{ root: { maxWidth: '23%' } }}> {/* Each card takes up 25% width */}
+            <RecentlyAddedCoinsWidget />
+          </Stack.Item>
+          <Stack.Item grow styles={{ root: { maxWidth: '23%' } }}>
+            <RecentlyAddedCoinsWidget />
+          </Stack.Item>
+          <Stack.Item grow styles={{ root: { maxWidth: '23%' } }}>
+            <RecentlyAddedCoinsWidget />
+          </Stack.Item>
+          <Stack.Item grow styles={{ root: { maxWidth: '23%' } }}>
+            <RecentlyAddedCoinsWidget />
+          </Stack.Item>
+        </Stack>
+
+        {/* Coin Table */}
+        <Stack styles={{ root: { marginTop: '40px', width: '100%' } }}>
+          <CoinTable data={data} config={config} keyFn={keyFn} />
+        </Stack>
+      </Stack>
     </Stack>
   );
 };

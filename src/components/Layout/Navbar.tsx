@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
 
   const getTextStyle = (path: string) => ({
     root: {
-      color: location.pathname === path ? theme.palette.themePrimary : theme.palette.neutralPrimary,
+      color: location.pathname === path ? theme.palette.themePrimary : theme.palette.white,
       transition: 'color 0.3s ease',
       selectors: {
         ':hover': {
