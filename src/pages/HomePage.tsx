@@ -5,7 +5,9 @@ import { fetchMovementDataSequentially, fetchCoins, Coin } from '../services/api
 import { config } from '../components/Coins/coinTableConfig';
 import Banner from '../components/Ads/Banner';
 import { RecentlyAddedCoinsWidget } from '../components/Coins/RecentlyAddedCoinsWidget';
-
+import { MarketOverviewWidget } from '../components/Coins/MarketOverviewWidget';
+import { TrendingWidget } from '../components/Coins/TrendingWidget';
+import { TopExchangesWidget } from '../components/Coins/TopExchanges';
 
 const keyFn = (coin: Coin) => coin.id;
 
@@ -67,17 +69,17 @@ const Home: React.FC = () => {
         {/* Widgets section */}
         <Stack horizontal horizontalAlign="space-between" wrap tokens={{ childrenGap: 20 }} styles={{ root: { marginTop: '40px', width: '100%' } }}>
           {/* Add 4 cards with equal width */}
-          <Stack.Item grow styles={{ root: { maxWidth: '23%' } }}> {/* Each card takes up 25% width */}
-            <RecentlyAddedCoinsWidget />
+          <Stack.Item grow styles={{ root: { maxWidth: '23%' } }}>
+            <MarketOverviewWidget />
+          </Stack.Item>
+          <Stack.Item grow styles={{ root: { maxWidth: '23%' } }}>
+            <TrendingWidget />
           </Stack.Item>
           <Stack.Item grow styles={{ root: { maxWidth: '23%' } }}>
             <RecentlyAddedCoinsWidget />
           </Stack.Item>
           <Stack.Item grow styles={{ root: { maxWidth: '23%' } }}>
-            <RecentlyAddedCoinsWidget />
-          </Stack.Item>
-          <Stack.Item grow styles={{ root: { maxWidth: '23%' } }}>
-            <RecentlyAddedCoinsWidget />
+            <TopExchangesWidget />
           </Stack.Item>
         </Stack>
 

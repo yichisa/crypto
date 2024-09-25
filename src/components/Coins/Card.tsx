@@ -17,21 +17,28 @@ export const Card: React.FC<CardProps> = ({ children, headerText }) => {
       backgroundColor: theme.palette.neutralLight,
       margin: '0px',
       maxWidth: '400px',
-      maxHeight: '200px',
+      height: '150px',
       width: '100%',
+      overflow: 'hidden', // If content exceeds the height, hide overflow
     },
   };
 
   const headerStyles: ITextStyles = {
     root: {
       backgroundColor: theme.palette.neutralLighter,
-      fontSize: theme.fonts.xLarge.fontSize,
-      fontWeight: theme.fonts.xLarge.fontWeight,
+      fontSize: theme.fonts.mediumPlus.fontSize,
+      fontWeight: theme.fonts.mediumPlus.fontWeight,
       textAlign: 'center',
       color: theme.palette.white,
-      padding: '10px', // Add padding for the header
+      padding: '4px',
+      selectors: {
+        ':hover': {
+          color: theme.palette.themePrimary,
+        },
+      },
     },
   };
+  
 
   const childrenContainerStyles: IStackStyles = {
     root: {

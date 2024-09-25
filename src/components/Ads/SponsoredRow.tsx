@@ -24,6 +24,7 @@ const SponsoredRow: React.FC = () => {
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
       }}
+      
     >
       <style>
         {`

@@ -1,4 +1,4 @@
-import { mergeStyles, ITheme, ISearchBoxStyles, ITextFieldStyles, ITextStyles } from '@fluentui/react';
+import { mergeStyles, ITheme, ISearchBoxStyles, ITextFieldStyles, ITextStyles, mergeStyleSets } from '@fluentui/react';
 
 
 export const getTableStyles = (theme: ITheme) => ({

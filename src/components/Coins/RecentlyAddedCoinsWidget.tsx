@@ -24,28 +24,41 @@ export const RecentlyAddedCoinsWidget: React.FC = () => {
     };
     loadCoins();
   }, []);
-  console.log(coins);
-  return (
-    <Card headerText="Recently Added">
-      {loading ? (
-        <Text>Loading...</Text>
-      ) : (
-        <Stack tokens={{ childrenGap: 10 }}>
-          {coins.map((coin) => (
-            <Stack key={coin.id} horizontal horizontalAlign="space-between">
-              <Image 
-                src={coin.image} 
-                alt={coin.name} 
-                width={32} 
-                height={32} 
-                imageFit={ImageFit.contain}
-              />
-              <Text styles={{ root: { color: theme.palette.neutralPrimary } }}>{coin.name} ({coin.symbol.toUpperCase()})</Text>
-              <Text styles={{ root: { color: theme.palette.neutralPrimary } }}>${coin.current_price.toLocaleString()}</Text>
-            </Stack>
-          ))}
-        </Stack>
-      )}
-    </Card>
-  );
-};
+
+    return (
+      <Card headerText="Recently Added">
+        {loading ? (
+          <Text>Loading...</Text>
+        ) : (
+          <Stack tokens={{ childrenGap: 10 }}>
+            {coins.map((coin) => (
+              <Stack key={coin.id} horizontal verticalAlign="center" horizontalAlign="start">
+                {/* Coin image */}
+                <Image 
+                  src={coin.image} 
+                  alt={coin.name} 
+                  width={24} 
+                  height={24} 
+                  imageFit={ImageFit.contain}
+                  styles={{ root: { marginRight: 10 } }}
+                />
+
+                {/* Stack to hold name, symbol, and price for better control */}
+                <Stack horizontal horizontalAlign="space-between" grow>
+                  {/* Align name and symbol to the left */}
+                  <Text styles={{ root: { color: theme.palette.neutralPrimary, textAlign: 'left' } }}>
+                    {coin.name} ({coin.symbol.toUpperCase()})
+                  </Text>
+
+                  {/* Align price to the right */}
+                  <Text styles={{ root: { color: theme.palette.white, textAlign: 'right', marginLeft: 'auto' } }}>
+                    ${coin.current_price.toLocaleString()}
+                  </Text>
+                </Stack>
+              </Stack>
+            ))}
+          </Stack>
+        )}
+      </Card>
+    );
+  };
