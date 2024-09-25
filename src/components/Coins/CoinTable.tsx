@@ -36,7 +36,7 @@ const CoinTable = <T extends { id: string }>({ data, config, keyFn }: CoinTableP
 
   return (
     <Stack tokens={stackTokens}>
-      <Stack.Item align="center">
+      <Stack.Item align="end">
         <SearchBox
           placeholder="Search coins.."
           value={searchQuery}

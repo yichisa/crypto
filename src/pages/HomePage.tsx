@@ -3,6 +3,7 @@ import { Spinner, Stack, Text, useTheme } from '@fluentui/react';
 import CoinTable from '../components/Coins/CoinTable';
 import { fetchMovementDataSequentially, fetchCoins, Coin } from '../services/api';
 import { config } from '../components/Coins/coinTableConfig';
+import Banner from '../components/Ads/Banner';
 
 const keyFn = (coin: Coin) => coin.id;
 
@@ -59,6 +60,7 @@ const Home: React.FC = () => {
 
   return (
     <Stack verticalAlign="start" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: theme.palette.neutralDark, padding: '24px' } }}>
+      <Banner />
       <CoinTable data={data} config={config} keyFn={keyFn} />
     </Stack>
   );

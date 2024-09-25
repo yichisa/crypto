@@ -1,55 +1,103 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Stack, Text, useTheme } from '@fluentui/react';
 
 const Navbar: React.FC = () => {
   const theme = useTheme();
+  const location = useLocation();
 
-  const linkStyle = {
-    color: theme.palette.white,
+  const getLinkStyle = (path: string) => ({
     textDecoration: 'none',
     padding: '10px 15px',
-  }
+    borderBottom: location.pathname === path ? `2px solid ${theme.palette.themePrimary}` : 'none',
+    transition: 'border-bottom 0.3s ease',
+    display: 'flex',
+    alignItems: 'center',
+  });
+
+  const getTextStyle = (path: string) => ({
+    root: {
+      color: location.pathname === path ? theme.palette.themePrimary : theme.palette.neutralPrimary,
+      transition: 'color 0.3s ease',
+      selectors: {
+        ':hover': {
+          color: theme.palette.themePrimary,
+        },
+      },
+    },
+  });
+
+  const navItems = [
+    { path: '/', label: 'Coins' },
+    { path: '/exchanges', label: 'Exchanges' },
+    { path: '/trending', label: 'Trending' },
+    { path: '/watchlist', label: 'Watchlist' },
+    { path: '/portfolio', label: 'Portfolio' },
+  ];
+
+  const registerStyle = {
+    root: {
+      backgroundColor: theme.palette.themePrimary,
+      padding: '5px 15px',
+      borderRadius: '10px',
+      transition: 'background-color 0.3s ease',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '40px',
+      selectors: {
+        ':hover': {
+          backgroundColor: theme.palette.neutralLighter,
+          color: theme.palette.themePrimary,
+        },
+      },
+    },
+  };
+
+  const loginStyle = {
+    root: {
+      color: theme.palette.themePrimary,
+      transition: 'color 0.3s ease',
+      selectors: {
+        ':hover': {
+          color: theme.palette.themePrimary,
+        },
+      },
+    },
+  };
 
   return (
     <Stack
       horizontal
       horizontalAlign="space-between"
-      verticalAlign='center'
+      verticalAlign="center"
       styles={{
         root: {
-          backgroundColor: theme.palette.themePrimary,
+          backgroundColor: theme.palette.neutralLight,
           padding: '10px 20px',
         },
       }}
     >
-      <Link to="/" style={linkStyle}>
+      <Link to="/">
         <Text variant="xxLarge" styles={{ root: { color: theme.palette.white } }}>
           Live Coin Tracker
         </Text>
-        </Link>
+      </Link>
 
       <Stack horizontal tokens={{ childrenGap: 20 }}>
-        <Link to="/exchanges" style={linkStyle}>
-          <Text variant="xLarge">Exchanges</Text>
-        </Link>
-        <Link to="/Trending" style={linkStyle}>
-          <Text variant="xLarge">Trending</Text>
-        </Link>
-        <Link to="/watchlist" style={linkStyle}>
-          <Text variant="xLarge">Watchlist</Text>
-        </Link>
-        <Link to="/portfolio" style={linkStyle}>
-          <Text variant="xLarge">Portfolio</Text>
-        </Link>
+        {navItems.map((item) => (
+          <Link key={item.path} to={item.path} style={getLinkStyle(item.path)}>
+            <Text variant="xLarge" styles={getTextStyle(item.path)}>{item.label}</Text>
+          </Link>
+        ))}
       </Stack>
 
       <Stack horizontal tokens={{ childrenGap: 20 }}>
-        <Link to="/login" style={linkStyle}>
-          <Text variant="medium">Login</Text>
+        <Link to="/login" style={getLinkStyle('/login')}>
+          <Text variant="medium" styles={loginStyle}>Login</Text>
         </Link>
-        <Link to="/register" style={linkStyle}>
-          <Text variant="medium">Register</Text>
+        <Link to="/register" style={{ textDecoration: 'none' }}>
+          <Text variant="medium" styles={registerStyle}>Register</Text>
         </Link>
       </Stack>
     </Stack>
