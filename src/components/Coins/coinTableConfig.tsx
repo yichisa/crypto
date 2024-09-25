@@ -59,9 +59,25 @@ export const config = [
   {
     label: '24h Change',
     render: (coin: Coin) => (
-      <Text variant="small" style={{ color: coin.price_change_percentage_24h > 0 ? 'green' : 'red' }}>
-        {formatLargeNumber(coin.price_change_percentage_24h)}%
-      </Text>
+      <Stack
+        horizontal
+        verticalAlign="center"
+        styles={{
+          root: {
+            backgroundColor: coin.price_change_percentage_24h > 0 ? '#52DFA2' : '#f4737c',
+            color: '#fff',
+            padding: '5px 10px',
+            borderRadius: '12px',
+            textAlign: 'center',
+            minWidth: '60px',
+            fontWeight: 'bold',
+          },
+        }}
+      >
+        <Text variant="small" styles={{ root: { color: '#fff', fontWeight: 'bold' } }}>
+          {formatLargeNumber(coin.price_change_percentage_24h)}%
+        </Text>
+      </Stack>
     ),
     sortValue: (coin: Coin) => coin.price_change_percentage_24h,
   },

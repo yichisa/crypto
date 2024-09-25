@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Stack, Text, useTheme } from '@fluentui/react';
+import { getLogoTextStyle } from '../../styles/styles';
 
 const Navbar: React.FC = () => {
   const theme = useTheme();
@@ -79,7 +80,7 @@ const Navbar: React.FC = () => {
       }}
     >
       <Link to="/">
-        <Text variant="xxLarge" styles={{ root: { color: theme.palette.white } }}>
+        <Text variant="xxLarge" styles={getLogoTextStyle(theme)}>
           Live Coin Tracker
         </Text>
       </Link>

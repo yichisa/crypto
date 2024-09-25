@@ -1,4 +1,4 @@
-import { mergeStyles, ITheme, ISearchBoxStyles, ITextFieldStyles } from '@fluentui/react';
+import { mergeStyles, ITheme, ISearchBoxStyles, ITextFieldStyles, ITextStyles } from '@fluentui/react';
 
 
 export const getTableStyles = (theme: ITheme) => ({
@@ -42,7 +42,7 @@ export const getSearchBoxStyles = (theme: ITheme): Partial<ISearchBoxStyles> => 
     root: {
       backgroundColor: theme.palette.neutralLighter,
       borderColor: theme.palette.themePrimary,  
-      width: '100%',
+      width: '200px',
     },
     field: {
       color: theme.palette.neutralPrimary,     
@@ -80,6 +80,24 @@ export const getFormTextFieldStyles = (theme: ITheme): Partial<ITextFieldStyles>
   subComponentStyles: {
     label: {
       root: { color: theme.palette.themePrimary },
+    },
+  },
+});
+
+
+export const getLogoTextStyle = (theme: ITheme): Partial<ITextStyles> => ({
+  root: {
+    position: 'relative',
+    background: `linear-gradient(45deg, ${theme.palette.themeLight}, ${theme.palette.themePrimary}, ${theme.palette.themeTertiary}, ${theme.palette.themeLighterAlt})`,
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
+    textFillColor: 'transparent',
+    transition: '0.3s ease',
+    selectors: {
+      ':hover': {
+        transform: 'scale(1.05)',
+      },
     },
   },
 });

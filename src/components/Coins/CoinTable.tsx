@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Stack, SearchBox, IStackTokens, useTheme } from '@fluentui/react';
 import Table from './Table';
+import SponsoredRow from '../Ads/SponsoredRow';
 import { getSearchBoxStyles } from '../../styles/styles';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,15 +37,21 @@ const CoinTable = <T extends { id: string }>({ data, config, keyFn }: CoinTableP
 
   return (
     <Stack tokens={stackTokens}>
-      <Stack.Item align="end">
+      <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
+        {/* Sponsored Row */}
+        <SponsoredRow />
+      
+        {/* Search Box */}
         <SearchBox
-          placeholder="Search coins.."
+          placeholder="Search coins..."
           value={searchQuery}
           onChange={(_, newValue) => setSearchQuery(newValue || '')}
           underlined={false}
           styles={styles}
         />
-      </Stack.Item>
+      </Stack>
+
+      {/* Table with filtered data */}
       <Stack.Item>
         <Table data={filteredData} config={config} keyFn={keyFn} onRowClick={handleRowClick} />
       </Stack.Item>

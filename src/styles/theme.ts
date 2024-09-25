@@ -7,7 +7,7 @@ export const darkTheme = createTheme({
         neutralLighter: '#343e56',
         neutralLight: '#293143',
         neutralDark: '#1d2330',
-        neutralQuaternaryAlt: '#444444',
+        neutralQuaternaryAlt: 'linear-gradient(45deg, #ff69b4, #ff1493, #ff00ff, #ff6ec7, #ff1493, #db7093, #ff69b4)',
         white: '#ffffff',
       },
     semanticColors: {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import { useTheme } from '@fluentui/react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +10,7 @@ import {
   Title,
   Tooltip,
   Legend,
-  Filler, // Import Filler for the gradient fill
+  Filler,
 } from 'chart.js';
 
 ChartJS.register(
@@ -20,23 +21,24 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler // Register the Filler plugin for the gradient
+  Filler
 );
 
 interface LineChartProps {
-  dataPoints: number[]; // An array of price points
+  dataPoints: number[];
 }
 
 const LineChart: React.FC<LineChartProps> = ({ dataPoints }) => {
-  const chartRef = React.useRef(null); // Create a ref to access the chart instance
+  const chartRef = React.useRef(null);
+  const theme = useTheme(); 
 
   const data = {
-    labels: dataPoints.map((_, index) => index), // Use index as the label
+    labels: dataPoints.map((_, index) => index),
     datasets: [
       {
         label: 'Price Movement',
         data: dataPoints,
-        borderColor: 'rgba(56, 193, 114, 1)', // Green for the line
+        borderColor: theme.palette.themePrimary,
         backgroundColor: (context: any) => {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
@@ -47,8 +49,8 @@ const LineChart: React.FC<LineChartProps> = ({ dataPoints }) => {
 
           // Create a gradient fill for the area under the curve
           const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          gradient.addColorStop(0, 'rgba(56, 193, 114, 0.5)'); // Stronger green at the top
-          gradient.addColorStop(1, 'rgba(56, 193, 114, 0)'); // Fading to transparent at the bottom
+          gradient.addColorStop(0, `${theme.palette.themePrimary}88`);
+          gradient.addColorStop(1, `${theme.palette.themePrimary}00`);
 
           return gradient;
         },
