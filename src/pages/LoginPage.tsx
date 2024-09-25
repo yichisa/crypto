@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Stack, TextField, PrimaryButton, Text, MessageBar, MessageBarType, useTheme } from '@fluentui/react';
+import { getFormTextFieldStyles } from '../styles/styles'; 
 
 const Login: React.FC = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -62,13 +63,7 @@ const Login: React.FC = () => {
             value={form.email}
             onChange={handleChange}
             required
-            styles={{
-              subComponentStyles: {
-                label: {
-                  root: { color: theme.palette.themePrimary },
-                },
-              },
-            }}
+            styles={getFormTextFieldStyles(theme)}
           />
           <TextField
             label="Password"
@@ -78,16 +73,9 @@ const Login: React.FC = () => {
             onChange={handleChange}
             canRevealPassword
             required
-            styles={{
-              root: { marginTop: '15px' },
-              subComponentStyles: {
-                label: {
-                  root: { color: theme.palette.themePrimary },
-                },
-              },
-            }}
+            styles={getFormTextFieldStyles(theme)}
           />
-          <PrimaryButton type="submit" text="Login" styles={{ root: { marginTop: '20px', width: '100%' } }} />
+          <PrimaryButton type="submit" text="Login" styles={{ root: { marginTop: '40px', width: '100%' } }} />
         </form>
       </Stack>
     </Stack>

@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
       horizontalAlign="center"
       styles={{
         root: {
-          backgroundColor: theme.palette.neutralDark,
+          backgroundColor: theme.palette.neutralLight,
           padding: '20px',
           borderTop: `1px solid ${theme.palette.neutralLight}`,
         },

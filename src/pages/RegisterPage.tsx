@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Stack, TextField, PrimaryButton, Text, MessageBar, MessageBarType, useTheme } from '@fluentui/react';
+import { getFormTextFieldStyles } from '../styles/styles'; 
 
 const Register: React.FC = () => {
   const [form, setForm] = useState({ email: '', password: '', confirmPassword: '' });
@@ -13,11 +14,12 @@ const Register: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (form.password !== form.confirmPassword) {
-      setError("Passwords don't match");
+    if (form.email === '' || form.password === '' || form.confirmPassword === '') {
+      setError('Please fill in all fields');
+    } else if (form.password !== form.confirmPassword) {
+      setError('Passwords do not match');
     } else {
       setError(null);
-      // Submit form logic
     }
   };
 
@@ -63,13 +65,7 @@ const Register: React.FC = () => {
             value={form.email}
             onChange={handleChange}
             required
-            styles={{
-              subComponentStyles: {
-                label: {
-                  root: { color: theme.palette.themePrimary },
-                },
-              },
-            }}
+            styles={getFormTextFieldStyles(theme)}
           />
           <TextField
             label="Password"
@@ -79,13 +75,7 @@ const Register: React.FC = () => {
             onChange={handleChange}
             canRevealPassword
             required
-            styles={{
-              subComponentStyles: {
-                label: {
-                  root: { color: theme.palette.themePrimary },
-                },
-              },
-            }}
+            styles={getFormTextFieldStyles(theme)}
           />
           <TextField
             label="Confirm Password"
@@ -95,15 +85,9 @@ const Register: React.FC = () => {
             onChange={handleChange}
             canRevealPassword
             required
-            styles={{
-              subComponentStyles: {
-                label: {
-                  root: { color: theme.palette.themePrimary },
-                },
-              },
-            }}
+            styles={getFormTextFieldStyles(theme)}
           />
-          <PrimaryButton type="submit" text="Register" styles={{ root: { marginTop: '20px', width: '100%' } }} />
+          <PrimaryButton type="submit" text="Register" styles={{ root: { marginTop: '40px', width: '100%' } }} />
         </form>
       </Stack>
     </Stack>
