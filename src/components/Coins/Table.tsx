@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Text, useTheme, Icon } from '@fluentui/react';
+import { Text, useTheme, Icon, Stack } from '@fluentui/react';
 import { getTableStyles } from '../../styles/styles';
 import useSort from '../../hooks/use-sort';
 
@@ -28,7 +28,6 @@ const Table = <T extends { id: string }>({
   
   const { sortOrder, sortBy, sortedData, setSortColumn } = useSort(data, config);
 
-
   const getIcons = (label: string, sortBy: string | null, sortOrder: 'asc' | 'desc' | null) => {
     const iconStyles = {
       fontSize: 15,
@@ -37,7 +36,7 @@ const Table = <T extends { id: string }>({
     };
 
     if (label !== sortBy) {
-      return;
+      return null;
     }
 
     if (sortOrder === 'asc') {
@@ -47,14 +46,24 @@ const Table = <T extends { id: string }>({
     }
 
     return (
-      <div>
+      <Stack horizontal tokens={{ childrenGap: 2 }}>
         <Icon iconName="CaretUpSolid8" styles={{ root: iconStyles }} />
         <Icon iconName="CaretDownSolid8" styles={{ root: iconStyles }} />
-      </div>
+      </Stack>
     );
   };
-
-
+  const getTdClassName = (label: string) => {
+    console.log('label: ', label)
+    switch (label) {
+      case 'Coin':
+        return styles.leftAlignedTd;
+      case 'Movement':
+        return styles.centerAlignedTd;
+      default:
+        return styles.td; // Use right alignment for all other columns
+    }
+  };
+  
   const renderedHeaders = config.map((column) => {
     if (column.header) {
       return <Fragment key={column.label}>{column.header()}</Fragment>;
@@ -63,24 +72,26 @@ const Table = <T extends { id: string }>({
     return (
       <th
         key={column.label}
-        className={styles.th}
-        onClick={() => column.sortValue && setSortColumn(column.label)} // Handle sorting
-        style={{ cursor: column.sortValue ? 'pointer' : 'default' }} // Show pointer cursor for sortable columns
+        className={['Coin', '24h Change', 'Movement'].includes(column.label) ? styles.centerAlignedTh : styles.th}
+        onClick={() => column.sortValue && setSortColumn(column.label)} 
+        style={{ cursor: column.sortValue ? 'pointer' : 'default' }}
       >
-        <div>
+        <Stack verticalAlign="center" tokens={{ childrenGap: 8 }}>
           {getIcons(column.label, sortBy, sortOrder)}
           <Text variant="small" className={styles.headerText}>
             {column.label}
           </Text>
-        </div>
+        </Stack>
       </th>
     );
   });
 
-  // Render table rows
   const renderedRows = sortedData.map((rowData) => {
     const renderedCells = config.map((column) => (
-      <td key={column.label} className={styles.td}>
+      <td 
+        key={column.label} 
+        className={getTdClassName(column.label)}
+      >
         {column.render(rowData)}
       </td>
     ));
@@ -88,7 +99,7 @@ const Table = <T extends { id: string }>({
     return (
       <tr
         key={keyFn(rowData)}
-        className={styles.tr}
+        className={styles.tr} // Global row styles
         onClick={onRowClick ? () => onRowClick(rowData.id) : undefined}
       >
         {renderedCells}
@@ -97,9 +108,9 @@ const Table = <T extends { id: string }>({
   });
 
   return (
-    <div className={styles.tableContainer}>
-      <table className={styles.table}>
-        <thead className={styles.th}>
+    <div className={styles.tableContainer}> {/* Global styles */}
+      <table className={styles.table}> {/* Global table styles */}
+        <thead>
           <tr>{renderedHeaders}</tr>
         </thead>
         <tbody>{renderedRows}</tbody>

@@ -14,12 +14,12 @@ export const config = [
           alt={coin.name}
           width={32}   // Fixed width
           height={32}  // Fixed height
-          imageFit={ImageFit.cover}  // Ensures the image covers the container while maintaining aspect ratio
+          imageFit={ImageFit.cover}
           styles={{ root: { borderRadius: '50%' } }}  // Rounded image (circular)
         />
 
         {/* Coin Name and ID */}
-        <Stack styles={{ root: { maxWidth: '80px', overflow: 'hidden' } }}>
+        <Stack styles={{ root: { overflow: 'hidden' } }}>
           <Text variant="medium" styles={{ root: { whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' } }}>
             {coin.id.toUpperCase()}  {/* Coin ID */}
           </Text>
@@ -29,12 +29,12 @@ export const config = [
         </Stack>
       </Stack>
     ),
-    sortValue: (coin: Coin) => coin.name,  // Sorting based on the coin name
+    sortValue: (coin: Coin) => coin.name,
   },
   {
     label: 'Price',
     render: (coin: Coin) => (
-      <Text styles={{ root: { textAlign: 'right' } }}>
+      <Text>
         {formatLargeNumber(coin.current_price)}
       </Text>
     ),
@@ -43,7 +43,7 @@ export const config = [
   {
     label: 'Market Cap',
     render: (coin: Coin) => (
-      <Text styles={{ root: { textAlign: 'right' } }}>
+      <Text>
         {formatLargeNumber(coin.market_cap)}
       </Text>
     ),
@@ -52,7 +52,7 @@ export const config = [
   {
     label: 'Total Volume',
     render: (coin: Coin) => (
-      <Text styles={{ root: { textAlign: 'right' } }}>
+      <Text>
         {formatLargeNumber(coin.total_volume)}
       </Text>
     ),
@@ -61,7 +61,7 @@ export const config = [
   {
     label: '24h High',
     render: (coin: Coin) => (
-      <Text styles={{ root: { textAlign: 'right' } }}>
+      <Text>
         {formatLargeNumber(coin.high_24h)}
       </Text>
     ),
@@ -70,7 +70,7 @@ export const config = [
   {
     label: '24h Low',
     render: (coin: Coin) => (
-      <Text styles={{ root: { textAlign: 'right', } }}>
+      <Text>
         {formatLargeNumber(coin.low_24h)}
       </Text>
     ),
@@ -80,7 +80,6 @@ export const config = [
     label: '24h Change',
     render: (coin: Coin) => (
       <Stack
-        horizontal
         verticalAlign="center"
         styles={{
           root: {

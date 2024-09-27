@@ -1,6 +1,5 @@
 import { mergeStyles, ITheme, ISearchBoxStyles, ITextFieldStyles, ITextStyles } from '@fluentui/react';
 
-
 export const getTableStyles = (theme: ITheme) => ({
   tableContainer: mergeStyles({
     overflowX: 'auto',
@@ -10,6 +9,7 @@ export const getTableStyles = (theme: ITheme) => ({
     boxShadow: theme.effects.elevation4,
     borderRadius: theme.effects.roundedCorner4,
     overflow: 'hidden',
+    padding: '2px 20px',
   }),
   table: mergeStyles({
     width: '100%',
@@ -17,10 +17,12 @@ export const getTableStyles = (theme: ITheme) => ({
     tableLayout: 'fixed',
   }),
   th: mergeStyles({
-    backgroundColor: theme.palette.neutralLight,
-    padding: '10px 24px',
+    padding: '4px 8px',
     height: '20px',
     color: theme.palette.neutralPrimary,
+    borderBottom: `4px solid ${theme.palette.neutralDark}`,
+  }),
+  centerAlignedTh: mergeStyles({
     textAlign: 'center',
     borderBottom: `4px solid ${theme.palette.neutralDark}`,
   }),
@@ -34,11 +36,20 @@ export const getTableStyles = (theme: ITheme) => ({
     },
   }),
   td: mergeStyles({
-    padding: '8px 16px',
+    padding: '8px 32px',
     color: theme.palette.white,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+    textAlign: 'right',
     textOverflow: 'ellipsis',
+  }),
+  leftAlignedTd: mergeStyles({
+    textAlign: 'left',
+    padding: '4px 16px',
+  }),
+  centerAlignedTd: mergeStyles({
+    textAlign: 'center',
+    padding: '4px 8px',
   }),
   headerText: mergeStyles({
     fontWeight: 600,
@@ -53,7 +64,7 @@ export const getSearchBoxStyles = (theme: ITheme): Partial<ISearchBoxStyles> => 
       width: '200px',
     },
     field: {
-      color: theme.palette.neutralPrimary,     
+      color: theme.palette.neutralPrimary,
       selectors: {
         '::placeholder': {
           color: theme.palette.neutralPrimary,
@@ -64,7 +75,6 @@ export const getSearchBoxStyles = (theme: ITheme): Partial<ISearchBoxStyles> => 
     icon: {
       color: theme.palette.themePrimary,
     },
-    
   };
 };
 
@@ -92,7 +102,6 @@ export const getFormTextFieldStyles = (theme: ITheme): Partial<ITextFieldStyles>
   },
 });
 
-
 export const getLogoTextStyle = (theme: ITheme): Partial<ITextStyles> => ({
   root: {
     position: 'relative',
@@ -104,7 +113,7 @@ export const getLogoTextStyle = (theme: ITheme): Partial<ITextStyles> => ({
     transition: '0.3s ease',
     selectors: {
       ':hover': {
-        transform: 'scale(1.05)',
+        transform: 'scale(1.05)', 
       },
     },
   },
