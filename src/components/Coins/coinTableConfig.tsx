@@ -2,10 +2,12 @@ import { Image, Text, Stack, ImageFit } from '@fluentui/react';
 import { Coin } from '../../services/api';
 import LineChart from './LineChart';
 import { formatLargeNumber } from '../../utils/formatters';
+import { columnStyles } from '../../styles/styles';
 
 export const config = [
   {
     label: 'Coin',
+    width: '250px', 
     render: (coin: Coin) => (
       <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 10 }}>
         {/* Fluent UI Image with fixed size and ImageFit */}
@@ -14,22 +16,21 @@ export const config = [
           alt={coin.name}
           width={32}   // Fixed width
           height={32}  // Fixed height
-          imageFit={ImageFit.cover}
-          styles={{ root: { borderRadius: '50%' } }}  // Rounded image (circular)
+          imageFit={ImageFit.contain}
+          className={columnStyles.coinImage}
         />
 
         {/* Coin Name and ID */}
-        <Stack styles={{ root: { overflow: 'hidden' } }}>
-          <Text variant="medium" styles={{ root: { whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' } }}>
+        <Stack className={columnStyles.coinName}>
+          <Text variant="medium">
             {coin.id.toUpperCase()}  {/* Coin ID */}
           </Text>
-          <Text variant="small" styles={{ root: { whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' } }}>
+          <Text variant="small">
             {coin.name}  {/* Coin Name */}
           </Text>
         </Stack>
       </Stack>
     ),
-    sortValue: (coin: Coin) => coin.name,
   },
   {
     label: 'Price',
@@ -81,19 +82,9 @@ export const config = [
     render: (coin: Coin) => (
       <Stack
         verticalAlign="center"
-        styles={{
-          root: {
-            backgroundColor: coin.price_change_percentage_24h > 0 ? '#52DFA2' : '#f4737c',
-            color: '#fff',
-            padding: '5px 10px',
-            borderRadius: '12px',
-            textAlign: 'center',
-            maxWidth: '70px',
-            fontWeight: 'bold',
-          },
-        }}
+        styles={columnStyles.priceChangeBox(coin.price_change_percentage_24h > 0)}
       >
-        <Text variant="small" styles={{ root: { color: '#fff', fontWeight: 'bold' } }}>
+        <Text variant="small" className={columnStyles.priceChangeText}>
           {formatLargeNumber(coin.price_change_percentage_24h)}%
         </Text>
       </Stack>

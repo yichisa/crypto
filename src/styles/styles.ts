@@ -18,7 +18,6 @@ export const getTableStyles = (theme: ITheme) => ({
   }),
   th: mergeStyles({
     padding: '4px 8px',
-    height: '20px',
     color: theme.palette.neutralPrimary,
     borderBottom: `4px solid ${theme.palette.neutralDark}`,
   }),
@@ -55,6 +54,40 @@ export const getTableStyles = (theme: ITheme) => ({
     fontWeight: 600,
   }),
 });
+
+export const columnStyles = {
+  iconButton: (isLiked: boolean) => ({
+    root: {
+      fontSize: 16,
+      color: isLiked ? '#f4737c' : '#ccc',
+    },
+  }),
+  coinImage: mergeStyles({
+    borderRadius: '50%',
+  }),
+  coinName: mergeStyles({
+    maxWidth: '200px',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+  }),
+  priceChangeBox: (isPositive: boolean) => (
+    {
+      root: {
+        backgroundColor: isPositive ? '#52DFA2' : '#f4737c',
+        color: '#fff',
+        padding: '5px 10px',
+        borderRadius: '12px',
+        textAlign: 'center',
+        maxWidth: '70px',
+        fontWeight: 'bold',
+      },
+    }),
+  priceChangeText: mergeStyles({
+    color: '#fff',
+    fontWeight: 'bold',
+  }),
+};
 
 export const getSearchBoxStyles = (theme: ITheme): Partial<ISearchBoxStyles> => {
   return {

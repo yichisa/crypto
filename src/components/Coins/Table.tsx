@@ -77,8 +77,8 @@ const Table = <T extends { id: string }>({
         style={{ cursor: column.sortValue ? 'pointer' : 'default' }}
       >
         <Stack verticalAlign="center" tokens={{ childrenGap: 8 }}>
-          {getIcons(column.label, sortBy, sortOrder)}
           <Text variant="small" className={styles.headerText}>
+            {getIcons(column.label, sortBy, sortOrder)}
             {column.label}
           </Text>
         </Stack>
