@@ -49,7 +49,7 @@ export const TrendingWidget: React.FC = () => {
 
               {/* Coin name and symbol */}
               <Text styles={{ root: { color: theme.palette.neutralPrimary, textAlign: 'left' } }}>
-                {item.name} ({item.symbol.toUpperCase()})
+                {item.name}
               </Text>
 
               {/* Coin ranking (if available) */}

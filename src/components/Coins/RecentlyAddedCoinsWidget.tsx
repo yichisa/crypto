@@ -47,7 +47,7 @@ export const RecentlyAddedCoinsWidget: React.FC = () => {
                 <Stack horizontal horizontalAlign="space-between" grow>
                   {/* Align name and symbol to the left */}
                   <Text styles={{ root: { color: theme.palette.neutralPrimary, textAlign: 'left' } }}>
-                    {coin.name} ({coin.symbol.toUpperCase()})
+                    {coin.name}
                   </Text>
 
                   {/* Align price to the right */}

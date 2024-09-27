@@ -7,53 +7,73 @@ export const config = [
   {
     label: 'Coin',
     render: (coin: Coin) => (
-      <Image 
-        src={coin.image} 
-        alt={coin.name} 
-        width={32} 
-        height={32} 
-        imageFit={ImageFit.contain}
-      />
-    ),
-    sortValue: undefined,
-  },
-  {
-    label: 'Name',
-    render: (coin: Coin) => (
-      <Stack>
-        <Text variant="medium">
-          {coin.id.toUpperCase()}
-        </Text>
-        <Text variant="small">
-          {coin.name}
-        </Text>
+      <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 10 }}>
+        {/* Fluent UI Image with fixed size and ImageFit */}
+        <Image
+          src={coin.image}
+          alt={coin.name}
+          width={32}   // Fixed width
+          height={32}  // Fixed height
+          imageFit={ImageFit.cover}  // Ensures the image covers the container while maintaining aspect ratio
+          styles={{ root: { borderRadius: '50%' } }}  // Rounded image (circular)
+        />
+
+        {/* Coin Name and ID */}
+        <Stack styles={{ root: { maxWidth: '80px', overflow: 'hidden' } }}>
+          <Text variant="medium" styles={{ root: { whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' } }}>
+            {coin.id.toUpperCase()}  {/* Coin ID */}
+          </Text>
+          <Text variant="small" styles={{ root: { whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' } }}>
+            {coin.name}  {/* Coin Name */}
+          </Text>
+        </Stack>
       </Stack>
     ),
-    sortValue: (coin: Coin) => coin.name,
+    sortValue: (coin: Coin) => coin.name,  // Sorting based on the coin name
   },
   {
     label: 'Price',
-    render: (coin: Coin) => formatLargeNumber(coin.current_price),
+    render: (coin: Coin) => (
+      <Text styles={{ root: { textAlign: 'right' } }}>
+        {formatLargeNumber(coin.current_price)}
+      </Text>
+    ),
     sortValue: (coin: Coin) => coin.current_price,
   },
   {
     label: 'Market Cap',
-    render: (coin: Coin) => formatLargeNumber(coin.market_cap),
+    render: (coin: Coin) => (
+      <Text styles={{ root: { textAlign: 'right' } }}>
+        {formatLargeNumber(coin.market_cap)}
+      </Text>
+    ),
     sortValue: (coin: Coin) => coin.market_cap,
   },
   {
     label: 'Total Volume',
-    render: (coin: Coin) => formatLargeNumber(coin.total_volume),
+    render: (coin: Coin) => (
+      <Text styles={{ root: { textAlign: 'right' } }}>
+        {formatLargeNumber(coin.total_volume)}
+      </Text>
+    ),
     sortValue: (coin: Coin) => coin.total_volume,
   },
   {
     label: '24h High',
-    render: (coin: Coin) => formatLargeNumber(coin.high_24h),
+    render: (coin: Coin) => (
+      <Text styles={{ root: { textAlign: 'right' } }}>
+        {formatLargeNumber(coin.high_24h)}
+      </Text>
+    ),
     sortValue: (coin: Coin) => coin.high_24h,
   },
   {
     label: '24h Low',
-    render: (coin: Coin) => formatLargeNumber(coin.low_24h),
+    render: (coin: Coin) => (
+      <Text styles={{ root: { textAlign: 'right', } }}>
+        {formatLargeNumber(coin.low_24h)}
+      </Text>
+    ),
     sortValue: (coin: Coin) => coin.low_24h,
   },
   {
@@ -69,7 +89,7 @@ export const config = [
             padding: '5px 10px',
             borderRadius: '12px',
             textAlign: 'center',
-            minWidth: '60px',
+            maxWidth: '70px',
             fontWeight: 'bold',
           },
         }}

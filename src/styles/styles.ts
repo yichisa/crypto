@@ -1,4 +1,4 @@
-import { mergeStyles, ITheme, ISearchBoxStyles, ITextFieldStyles, ITextStyles, mergeStyleSets } from '@fluentui/react';
+import { mergeStyles, ITheme, ISearchBoxStyles, ITextFieldStyles, ITextStyles } from '@fluentui/react';
 
 
 export const getTableStyles = (theme: ITheme) => ({
@@ -7,10 +7,14 @@ export const getTableStyles = (theme: ITheme) => ({
     maxWidth: '100%',
     margin: '0 auto',
     backgroundColor: theme.palette.neutralLight,
+    boxShadow: theme.effects.elevation4,
+    borderRadius: theme.effects.roundedCorner4,
+    overflow: 'hidden',
   }),
   table: mergeStyles({
     width: '100%',
     borderCollapse: 'collapse',
+    tableLayout: 'fixed',
   }),
   th: mergeStyles({
     backgroundColor: theme.palette.neutralLight,
@@ -21,6 +25,7 @@ export const getTableStyles = (theme: ITheme) => ({
     borderBottom: `4px solid ${theme.palette.neutralDark}`,
   }),
   tr: mergeStyles({
+    height: '48px',
     cursor: 'pointer',
     borderBottom: `2px solid ${theme.palette.neutralDark}`,
     backgroundColor: theme.palette.neutralLight,
@@ -29,8 +34,11 @@ export const getTableStyles = (theme: ITheme) => ({
     },
   }),
   td: mergeStyles({
-    padding: '12px 24px',
+    padding: '8px 16px',
     color: theme.palette.white,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   }),
   headerText: mergeStyles({
     fontWeight: 600,

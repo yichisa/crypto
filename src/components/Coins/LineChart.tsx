@@ -56,7 +56,7 @@ const LineChart: React.FC<LineChartProps> = ({ dataPoints }) => {
         },
         fill: true, // Fill the area under the line
         tension: 0.4, // Curved line
-        borderWidth: 2,
+        borderWidth: 1,
         pointRadius: 0, // No visible points
       },
     ],

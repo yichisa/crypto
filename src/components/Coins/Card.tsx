@@ -11,15 +11,15 @@ export const Card: React.FC<CardProps> = ({ children, headerText }) => {
 
   const cardStyles: IStackStyles = {
     root: {
-      boxShadow: theme.effects.elevation8,
-      borderRadius: theme.effects.roundedCorner2,
+      boxShadow: theme.effects.elevation4,
+      borderRadius: theme.effects.roundedCorner4,
       padding: '0px',
       backgroundColor: theme.palette.neutralLight,
       margin: '0px',
       maxWidth: '400px',
       height: '150px',
       width: '100%',
-      overflow: 'hidden', // If content exceeds the height, hide overflow
+      overflow: 'hidden',
     },
   };
 
@@ -46,6 +46,9 @@ export const Card: React.FC<CardProps> = ({ children, headerText }) => {
       backgroundColor: theme.palette.neutralLight, // Background color for the children container
       borderRadius: theme.effects.roundedCorner2, // Rounded corners for the children container
       color: theme.palette.neutralLight, // Change the text color for children
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
   };
 
