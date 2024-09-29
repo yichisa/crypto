@@ -9,7 +9,7 @@ const filledHeartIcon: IIconProps = { iconName: 'HeartFill', styles: { root: { f
 
 export const config = [
   {
-    label: 'Heart',
+    label: 'Liked',
     render: (coin: Coin, handleLikeToggle?: (coinId: string) => void, likedCoins?: Record<string, boolean>) => {
       const isLiked = likedCoins ? likedCoins[coin.id] : false;
 
@@ -28,7 +28,6 @@ export const config = [
   },
   {
     label: 'Coin',
-    width: '250px', 
     render: (coin: Coin) => (
       <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 10 }}>
         {/* Fluent UI Image with fixed size and ImageFit */}

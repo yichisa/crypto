@@ -101,7 +101,7 @@ const Table = <T extends { id: string }>({
       >
         {/* Conditionally pass handleLikeToggle and likedCoins if needed */}
         {column.label === 'Heart'
-          ? column.render(rowData, handleLikeToggle, likedCoins)
+          ? column.render(rowData, handleLikeToggle, likedCoins) // For Heart column
           : column.render(rowData)}
       </td>
     ));

@@ -14,7 +14,7 @@ export const getTableStyles = (theme: ITheme) => ({
   table: mergeStyles({
     width: '100%',
     borderCollapse: 'collapse',
-    tableLayout: 'fixed',
+    tableLayout: 'auto',
   }),
   th: mergeStyles({
     padding: '4px 8px',
@@ -35,12 +35,12 @@ export const getTableStyles = (theme: ITheme) => ({
     },
   }),
   td: mergeStyles({
-    padding: '8px 32px',
+    padding: '8px 12px',
     color: theme.palette.white,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textAlign: 'right',
-    textOverflow: 'ellipsis',
+    // textOverflow: 'ellipsis',
   }),
   leftAlignedTd: mergeStyles({
     textAlign: 'left',
