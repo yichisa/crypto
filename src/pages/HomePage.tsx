@@ -15,31 +15,36 @@ const Home: React.FC = () => {
   const [data, setData] = useState<Coin[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [likedCoins, setLikedCoins] = useState<Record<string, boolean>>({});
+  const [showLikedCoins, setShowLikedCoins] = useState<boolean>(false); // State to show liked coins
   const theme = useTheme();
+
+  // Toggle like/unlike for a coin
+  const handleLikeToggle = (coinId: string) => {
+    setLikedCoins((prevLikedCoins) => ({
+      ...prevLikedCoins,
+      [coinId]: !prevLikedCoins[coinId], // Toggle the liked state
+    }));
+  };
 
   useEffect(() => {
     const getCoins = async () => {
       try {
         setLoading(true);
-
         const coins = await fetchCoins();
-
         const initialData = coins.map((coin) => ({
           ...coin,
           isLoading: true,
           movementData: [],
         }));
-
         setData(initialData);
         setLoading(false);
-
         fetchMovementDataSequentially(initialData, setData);
       } catch (err: any) {
         setError(err.message);
         setLoading(false);
       }
     };
-
     getCoins();
   }, []);
 
@@ -61,6 +66,11 @@ const Home: React.FC = () => {
     );
   }
 
+  // Filter data to show only liked coins if the user has clicked the heart header
+  const filteredData = showLikedCoins
+    ? data.filter((coin) => likedCoins[coin.id]) // Filter liked coins
+    : data; // Show all coins if not filtered
+
   return (
     <Stack verticalAlign="start" horizontalAlign="center" styles={{ root: { minHeight: '100vh', backgroundColor: theme.palette.neutralDark, padding: '24px' } }}>
       <Banner />
@@ -68,7 +78,6 @@ const Home: React.FC = () => {
       <Stack styles={{ root: { maxWidth: '1200px', width: '100%' } }}>
         {/* Widgets section */}
         <Stack horizontal horizontalAlign="space-between" wrap tokens={{ childrenGap: 20 }} styles={{ root: { marginTop: '40px', width: '100%' } }}>
-          {/* Add 4 cards with equal width */}
           <Stack.Item grow styles={{ root: { maxWidth: '23%' } }}>
             <MarketOverviewWidget />
           </Stack.Item>
@@ -85,7 +94,14 @@ const Home: React.FC = () => {
 
         {/* Coin Table */}
         <Stack styles={{ root: { marginTop: '40px', width: '100%' } }}>
-          <CoinTable data={data} config={config} keyFn={keyFn} />
+          <CoinTable
+            data={filteredData} // Pass filtered data
+            config={config}
+            keyFn={keyFn}
+            handleLikeToggle={handleLikeToggle} // Pass like toggle function
+            likedCoins={likedCoins} // Pass likedCoins state
+            setShowLikedCoins={setShowLikedCoins} // Pass function to toggle liked coins display
+          />
         </Stack>
       </Stack>
     </Stack>

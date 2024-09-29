@@ -5,7 +5,7 @@ import useSort from '../../hooks/use-sort';
 
 interface ColumnConfig<T> {
   label: string;
-  render: (row: T) => React.ReactNode;
+  render: (row: T, handleLikeToggle?: (id: string) => void, likedCoins?: Record<string, boolean>) => React.ReactNode;
   sortValue?: (item: T) => any;
   header?: () => React.ReactNode;
 }
@@ -15,17 +15,24 @@ interface TableProps<T> {
   config: ColumnConfig<T>[];
   keyFn: (row: T) => string;
   onRowClick?: (id: string) => void;
+  handleLikeToggle?: (coinId: string) => void;
+  likedCoins: Record<string, boolean>; // A mapping of liked coins (coinId to boolean)
+  setShowLikedCoins: React.Dispatch<React.SetStateAction<boolean>>; // Function to toggle the view of liked coins
 }
+
 
 const Table = <T extends { id: string }>({
   data,
   config,
   keyFn,
   onRowClick,
+  handleLikeToggle,
+  likedCoins,
+  setShowLikedCoins, // Add setShowLikedCoins to toggle liked coins display
 }: TableProps<T>) => {
   const theme = useTheme();
   const styles = getTableStyles(theme);
-  
+
   const { sortOrder, sortBy, sortedData, setSortColumn } = useSort(data, config);
 
   const getIcons = (label: string, sortBy: string | null, sortOrder: 'asc' | 'desc' | null) => {
@@ -52,18 +59,18 @@ const Table = <T extends { id: string }>({
       </Stack>
     );
   };
+
   const getTdClassName = (label: string) => {
-    console.log('label: ', label)
     switch (label) {
       case 'Coin':
         return styles.leftAlignedTd;
       case 'Movement':
         return styles.centerAlignedTd;
       default:
-        return styles.td; // Use right alignment for all other columns
+        return styles.td;
     }
   };
-  
+
   const renderedHeaders = config.map((column) => {
     if (column.header) {
       return <Fragment key={column.label}>{column.header()}</Fragment>;
@@ -73,8 +80,8 @@ const Table = <T extends { id: string }>({
       <th
         key={column.label}
         className={['Coin', '24h Change', 'Movement'].includes(column.label) ? styles.centerAlignedTh : styles.th}
-        onClick={() => column.sortValue && setSortColumn(column.label)} 
-        style={{ cursor: column.sortValue ? 'pointer' : 'default' }}
+        onClick={() => column.label === 'Heart' ? setShowLikedCoins((prev) => !prev) : column.sortValue && setSortColumn(column.label)} 
+        style={{ cursor: column.sortValue || column.label === 'Heart' ? 'pointer' : 'default' }}
       >
         <Stack verticalAlign="center" tokens={{ childrenGap: 8 }}>
           <Text variant="small" className={styles.headerText}>
@@ -92,7 +99,10 @@ const Table = <T extends { id: string }>({
         key={column.label} 
         className={getTdClassName(column.label)}
       >
-        {column.render(rowData)}
+        {/* Conditionally pass handleLikeToggle and likedCoins if needed */}
+        {column.label === 'Heart'
+          ? column.render(rowData, handleLikeToggle, likedCoins)
+          : column.render(rowData)}
       </td>
     ));
 

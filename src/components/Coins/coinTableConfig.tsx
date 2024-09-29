@@ -1,10 +1,31 @@
-import { Image, Text, Stack, ImageFit } from '@fluentui/react';
+import { Image, Text, Stack, ImageFit, IconButton, IIconProps } from '@fluentui/react';
 import { Coin } from '../../services/api';
 import LineChart from './LineChart';
 import { formatLargeNumber } from '../../utils/formatters';
 import { columnStyles } from '../../styles/styles';
 
+const emptyHeartIcon: IIconProps = { iconName: 'Heart', styles: { root: { fontSize: 16, color: '#ccc' } } };
+const filledHeartIcon: IIconProps = { iconName: 'HeartFill', styles: { root: { fontSize: 16, color: '#f4737c' } } };
+
 export const config = [
+  {
+    label: 'Heart',
+    render: (coin: Coin, handleLikeToggle?: (coinId: string) => void, likedCoins?: Record<string, boolean>) => {
+      const isLiked = likedCoins ? likedCoins[coin.id] : false;
+
+      return (
+        <IconButton
+          iconProps={isLiked ? filledHeartIcon : emptyHeartIcon}
+          onClick={(event) => {
+            event.stopPropagation(); // Prevent row click when heart is clicked
+            handleLikeToggle && handleLikeToggle(coin.id); // Only toggle the heart state
+          }}
+          title="Like"
+          ariaLabel="Like"
+        />
+      );
+    },
+  },
   {
     label: 'Coin',
     width: '250px', 
