@@ -80,8 +80,8 @@ const Table = <T extends { id: string }>({
       <th
         key={column.label}
         className={['Coin', '24h Change', 'Movement'].includes(column.label) ? styles.centerAlignedTh : styles.th}
-        onClick={() => column.label === 'Heart' ? setShowLikedCoins((prev) => !prev) : column.sortValue && setSortColumn(column.label)} 
-        style={{ cursor: column.sortValue || column.label === 'Heart' ? 'pointer' : 'default' }}
+        onClick={() => column.label === 'Liked' ? setShowLikedCoins((prev) => !prev) : column.sortValue && setSortColumn(column.label)} 
+        style={{ cursor: column.sortValue || column.label === 'Liked' ? 'pointer' : 'default' }}
       >
         <Stack verticalAlign="center" tokens={{ childrenGap: 8 }}>
           <Text variant="small" className={styles.headerText}>
@@ -100,8 +100,8 @@ const Table = <T extends { id: string }>({
         className={getTdClassName(column.label)}
       >
         {/* Conditionally pass handleLikeToggle and likedCoins if needed */}
-        {column.label === 'Heart'
-          ? column.render(rowData, handleLikeToggle, likedCoins) // For Heart column
+        {column.label === 'Liked'
+          ? column.render(rowData, handleLikeToggle, likedCoins) // For Liked column
           : column.render(rowData)}
       </td>
     ));
