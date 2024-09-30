@@ -30,7 +30,7 @@ interface LineChartProps {
 
 const LineChart: React.FC<LineChartProps> = ({ dataPoints }) => {
   const chartRef = React.useRef(null);
-  const theme = useTheme(); 
+  const theme = useTheme();
 
   const data = {
     labels: dataPoints.map((_, index) => index),
@@ -63,7 +63,8 @@ const LineChart: React.FC<LineChartProps> = ({ dataPoints }) => {
   };
 
   const options = {
-    maintainAspectRatio: false, // Makes it responsive
+    maintainAspectRatio: true,
+    aspectRatio: 4, // Increase this value to squeeze the chart horizontally
     scales: {
       x: {
         display: false, // Hide x-axis labels
